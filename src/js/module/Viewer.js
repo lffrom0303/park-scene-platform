@@ -4,6 +4,8 @@ import Stats from "three/examples/jsm/libs/stats.module.js";
 import Scene from "./Scene.js";
 import Camera from "./Camera.js";
 import Renderer from "./Renderer.js";
+import SkyBox from "./SkyBox.js";
+import ModelLoader from "./ModelLoader.js";
 export default class Scene3d {
   constructor(id, options = {}) {
     this.id = id;
@@ -36,9 +38,14 @@ export default class Scene3d {
       this.scene.add(this.axesHelper);
     }
     //skyBox
-
+    new SkyBox(this); //添加天空盒和雾化效果
+    // Lights
+    this.light = new THREE.AmbientLight(new THREE.Color()); // soft white light
+    this.scene.add(this.light);
     //resize
     window.addEventListener("resize", this.onWindowResize.bind(this));
+    //ModelLoader
+    new ModelLoader(this);
   }
   initOptions(options) {
     this.options = {
